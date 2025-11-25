@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Typing Master</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-container">
+    <!-- 시작 화면 -->
+    <div id="start-screen" class="start-screen">
+        <h1>Typing Master</h1>
+        <p>Choose your mode and level, then start the challenge!</p>
+        <div class="mode-selection">
+            <button class="mode-button active" data-mode="practice">Practice Mode</button>
+            <button class="mode-button" data-mode="alphabet">Alphabet Mode</button>
+            <button class="mode-button" data-mode="test">Test Mode (60s)</button>
+            <button class="mode-button" data-mode="game">Game Mode</button>
+        </div>
+        <div id="level-selection" class="level-selection hidden">
+            <h4>Select Level</h4>
+            <div class="level-buttons">
+                <button class="level-button active" data-level="easy">Easy</button>
+                <button class="level-button" data-level="normal">Normal</button>
+                <button class="level-button" data-level="hard">Hard</button>
+            </div>
+        </div>
+        <button id="start-button" class="start-button">Start</button>
+        <div class="sub-buttons-container">
+            <button id="how-to-play-button" class="sub-button">How to Play</button>
+            <button id="patch-notes-button" class="sub-button">Patch Notes</button>
+        </div>
+    </div>
+
+    <!-- 타이핑 화면 -->
+    <div id="typing-screen" class="typing-screen hidden">
+        <div id="game-container" class="game-container hidden">
+            <div class="race-track">
+                <div id="player-car" class="car player-car">YOU</div>
+                <div id="ai-car" class="car ai-car">AI</div>
+                <div class="finish-line"></div>
+            </div>
+        </div>
+        <div class="result">
+            <div id="timer-stat" class="result-item"> <div class="label">Time</div> <div id="timer" class="value">0s</div> </div>
+            <div id="wpm-stat" class="result-item"> <div class="label">WPM</div> <div id="wpm" class="value">0</div> </div>
+            <div id="accuracy-stat" class="result-item"> <div class="label">Accuracy</div> <div id="accuracy" class="value">100%</div> </div>
+        </div>
+        <div id="feedback-message" class="feedback-message"></div>
+        <div id="alphabet-display" class="alphabet-display hidden">
+            <div class="alphabet-char-track">
+                <span class="alphabet-char prev-2"></span> <span class="alphabet-char prev-1"></span>
+                <div class="current-char-box"> <span class="alphabet-char current"></span> </div>
+                <span class="alphabet-char next-1"></span> <span class="alphabet-char next-2"></span>
+            </div>
+        </div>
+        <div id="quote-display" class="quote-display"></div>
+        <textarea id="quote-input" class="quote-input" disabled></textarea>
+        <div class="bottom-buttons">
+            <button id="restart-button" class="bottom-button">Restart (Ctrl+R)</button>
+            <button id="new-sentence-button" class="bottom-button">New Sentence (F5)</button>
+            <button id="back-to-menu-button" class="bottom-button">Back to Menu</button>
+        </div>
+        <div id="keyboard" class="keyboard"></div>
+    </div>
+
+    <!-- 결과 Modal (테스트, 게임 공용) -->
+    <div id="result-modal" class="modal-overlay hidden">
+        <div class="modal-content result-modal-content">
+            <h2 id="result-title">Test Complete!</h2>
+            <div id="test-result-stats" class="final-stats-container">
+                <div class="final-score"> <p>WPM</p> <h3 id="final-wpm">0</h3> </div>
+                <div class="final-mistakes"> <p>Mistakes</p> <h3 id="final-mistakes">0</h3> </div>
+            </div>
+            <div id="game-result-message" class="hidden">
+                <p class="game-result-text"></p>
+            </div>
+            <div class="final-level"> <p>Your Level</p> <h3 id="final-level">Beginner</h3> </div>
+            <button id="close-result-modal-button" class="start-button">Try Again</button>
+        </div>
+    </div>
+
+    <!-- 게임 방법 안내 Modal -->
+    <div id="info-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button id="close-info-modal-button" class="close-button">&times;</button>
+            <h2>How to Play</h2>
+            <h3>Practice Mode</h3> <p>Type the given sentences. After completing a sentence, press Enter to move to the next one.</p>
+            <h3>Alphabet Mode</h3> <p>Type the letter shown in the center to practice key positions.</p>
+            <h3>Test Mode</h3> <p>You have <strong>60 seconds</strong> to type a paragraph. Your WPM and typing level will be measured.</p>
+            <h3>Game Mode</h3> <p>Type <strong>20 words</strong> faster than the AI to win the race! The AI speed changes based on the level you choose.</p>
+        </div>
+    </div>
+
+    <!-- 패치노트 Modal -->
+    <div id="patch-notes-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <button id="close-patch-notes-button" class="close-button">&times;</button>
+            <h2>Patch Notes</h2>
+
+            <div class="lang-tabs">
+                <button class="lang-tab-button active" data-lang="ko">한국어</button>                
+                <button class="lang-tab-button" data-lang="en">English</button>               
+            </div>
+            
+            <!-- [개선] 패치노트 내용을 감싸는 컨테이너 추가 -->
+            <div class="patch-notes-content-wrapper">
+                <!-- 한국어 패치노트 -->
+                <div id="patch-notes-ko">
+                    <!-- v1.7 -->
+                    <div class="version-section">
+                        <h3>v1.7 <span class="patch-date">- 2025. 10. 12.</span><span class="updater">- 업데이트: Mutabi Jake</span></h3>
+                        <h4> 왜 생긴지 모르겠는 버그 수정 및 개선</h4>
+                        <ul>
+                            <li><strong>스페이스 바 입력 오류 수정:</strong> 연습 및 테스트 모드에서 띄어쓰기(Space)가 오타로 처리되던 심각한 버그를 수정했습니다.</li>
+                            <li><strong>패치노트 UI 개선:</strong> 패치노트 언어 선택 버튼의 디자인을 사용성과 미관을 고려하여 세련된 탭 스타일로 변경했습니다.</li>
+                        </ul>
+                    </div>
+                    <!-- v1.6 -->
+                    <div class="version-section">
+                        <h3>v1.6 <span class="patch-date">- 2025. 10. 12.</span><span class="updater">- 업데이트: AI Assistant</span></h3>
+                        <h4>🎮 게임 모드 밸런스 대규모 조정</h4>
+                        <ul>
+                            <li><strong>게임 길이 조정:</strong> 한 게임에 입력할 단어 수를 15개에서 <strong>20개</strong>로 변경하여 플레이 경험을 개선했습니다.</li>
+                            <li><strong>AI 속도 현실화:</strong> WPM 20-40타 사용자가 '아슬아슬하게 이기는' 재미를 느낄 수 있도록 AI의 속도를 레벨별로 정밀하게 재설계했습니다.</li>
+                            <li><strong>단어 난이도 시스템 도입:</strong> 모든 단어를 '쉬움/보통/어려움'으로 나누고, 한 게임마다 정해진 비율로 단어가 출제되도록 변경하여 난이도를 표준화했습니다.</li>
+                        </ul>
+                    </div>
+                    <!-- v1.5 -->
+                    <div class="version-section">
+                        <h3>v1.5 <span class="patch-date">- 2025. 10. 12.</span><span class="updater">- 업데이트: Mutabi Jake</span></h3>
+                        <h4>🚀 주요 기능 추가</h4>
+                        <ul>
+                            <li><strong>게임 모드 추가:</strong> 단어 입력을 통해 AI와 자동차 경주를 하는 미니게임이 추가되었습니다.</li>
+                            <li><strong>레벨 선택 기능 추가:</strong> 연습 및 게임 모드의 난이도(쉬움, 보통, 어려움)를 선택할 수 있습니다.</li>
+                        </ul>
+                    </div>
+                    <!-- [수정] v1.2 패치노트 원본으로 복원 -->
+                    <div class="version-section">
+                        <h3>v1.2 <span class="patch-date">- 2025. 10. 06.</span></h3>
+                        <h4>🚀 주요 업데이트 및 개선</h4>
+                        <ul>
+                            <li><strong>알파벳 연습 모드 추가:</strong> 키보드 자리를 익힐 수 있도록 무작위 순서의 알파벳을 연습하는 새로운 모드가 추가되었습니다.</li>
+                            <li><strong>연습 문장 교체:</strong> 타이핑 연습에 더 적합한 길이와 깊이가 있는 유명 명언들로 문장을 전면 교체했습니다.</li>
+                            <li><strong>단어 단위 줄 바꿈 적용:</strong> 문장이 길어질 때 단어가 잘리는 현상 없이, 단어 단위로만 줄이 바뀌도록 수정했습니다.</li>
+                            <li><strong>결과 피드백 강화:</strong> 테스트 모드 완료 시, WPM과 함께 총 '오타 수'가 표시되도록 개선했습니다.</li>
+                        </ul>
+                        <h4>지옥같은 버그 수정</h4>
+                        <ul>
+                            <li>문장 입력 완료 직후 추가 키를 누르면 프로그램이 멈추는 레이스컨디션 버그를 해결했습니다.</li>
+                            <li>연습/테스트 모드에서 오타가 있어도 문장을 끝까지 입력하면 다음으로 넘어가도록 수정했습니다.</li>
+                            <li>가상 키보드의 알파벳을 모두 대문자로 변경하여 가독성을 높였습니다.</li>
+                        </ul>
+                    </div>
+                    <!-- [수정] v1.0 패치노트 원본으로 복원 -->
+                    <div class="version-section">
+                        <h3>v1.0 <span class="patch-date">- 2025. 09. 27.</span></h3>
+                        <h4>🎉 최초 배포</h4>
+                        <p>프로젝트가 처음 배포되었습니다. 이 타자 연습 프로그램은 우간다 ICT 역량 강화 프로젝트의 일환으로 제작되었습니다.</p>
+                    </div>
+                </div>
+
+                <!-- 영어 패치노트 -->
+                <div id="patch-notes-en" class="hidden">
+                    <!-- v1.7 -->
+                    <div class="version-section">
+                        <h3>v1.7 <span class="patch-date">- 2025. 10. 12.</span><span class="updater">- By Mutabi Jake</span></h3>
+                        <h4>🐛 Bug Fixes & Improvements</h4>
+                        <ul>
+                            <li><strong>Spacebar Input Bug Fixed:</strong> Fixed a critical bug in Practice and Test modes where spaces were incorrectly marked as mistakes.</li>
+                            <li><strong>Patch Notes UI Improved:</strong> Redesigned the language selection buttons into a more stylish and user-friendly tab format.</li>
+                        </ul>
+                    </div>
+                    <!-- v1.6 -->
+                    <div class="version-section">
+                        <h3>v1.6 <span class="patch-date">- 2025. 10. 12.</span><span class="updater">- By AI Assistant</span></h3>
+                        <h4>🎮 Major Game Mode Rebalancing</h4>
+                        <ul>
+                            <li><strong>Game Length Adjusted:</strong> The number of words per game has been changed to <strong>20</strong>.</li>
+                            <li><strong>AI Speed Re-calibrated:</strong> AI speed was fine-tuned to create a "close-call victory" experience for users with 20-40 WPM.</li>
+                            <li><strong>Word Difficulty System:</strong> Introduced 'Easy/Normal/Hard' word categories for balanced gameplay.</li>
+                        </ul>
+                    </div>
+                    <!-- v1.5 -->
+                    <div class="version-section">
+                        <h3>v1.5 <span class="patch-date">- 2025. 10. 12.</span><span class="updater">- By Mutabi Jake</span></h3>
+                        <h4>🚀 New Features</h4>
+                        <ul>
+                            <li><strong>Game Mode Added:</strong> A minigame where you race against an AI by typing words has been added.</li>
+                            <li><strong>Level Selection Added:</strong> You can now choose the difficulty for Practice and Game modes.</li>
+                        </ul>
+                    </div>
+                    <!-- [수정] v1.2 English Patch Notes -->
+                    <div class="version-section">
+                        <h3>v1.2 <span class="patch-date">- 2025. 10. 06.</span></h3>
+                        <h4>🚀 Major Updates & Improvements</h4>
+                        <ul>
+                            <li><strong>Alphabet Practice Mode Added:</strong> A new mode to practice key positions was added.</li>
+                            <li><strong>Practice Sentences Replaced:</strong> All sentences were replaced with famous quotes more suitable for typing practice.</li>
+                            <li><strong>Word-based Line Wrapping:</strong> Fixed an issue where words were split during line breaks.</li>
+                            <li><strong>Enhanced Feedback:</strong> The results screen for Test Mode now shows the total number of mistakes along with the WPM.</li>
+                        </ul>
+                        <h4>Critical Bug Fixes</h4>
+                        <ul>
+                            <li>Resolved a race condition bug that caused the program to freeze if a key was pressed immediately after completing a sentence.</li>
+                            <li>Modified the logic to ensure users can proceed to the next sentence even with typos, as long as they type to the end.</li>
+                            <li>Changed all letters on the virtual keyboard to uppercase for better readability.</li>
+                        </ul>
+                    </div>
+                    <!-- [수정] v1.0 English Patch Notes -->
+                    <div class="version-section">
+                        <h3>v1.0 <span class="patch-date">- 2025. 09. 27.</span></h3>
+                        <h4>🎉 Initial Release</h4>
+                        <p>The project was first deployed. This typing practice program was created as part of the ICT Capacity Building project in Uganda.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="credits">
+                <p><strong>최초 제작:</strong> Mutabi Jake (Kim Kangwoo)</p>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
