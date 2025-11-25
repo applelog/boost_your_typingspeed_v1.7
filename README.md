@@ -8,7 +8,7 @@
 
 ## Overview
 
-**Boost Your Typing Speed v1.7** is a web-based typing practice program developed as part of the **KOICA Volunteer Group 3's ICT Capacity Building Project in Uganda**. This open-source tool empowers learners to develop touch typing skills through engaging, interactive challenges — from classrooms to community centers and beyond.
+**Boost Your Typing Speed v1.7** is a web-based typing practice program developed as part of the **KOICA Project Volunteer Group 3's ICT Capacity Building Project in Uganda**. This open-source tool empowers learners to develop touch typing skills through engaging, interactive challenges — from classrooms to community centers and beyond.
 
 Whether you're starting to practice touch typing or want to improve your speed and accuracy, this program provides real-time feedback, performance analytics, and multiple game modes to keep learning engaging and effective.
 
@@ -179,8 +179,7 @@ See the [LICENSE](LICENSE) file for complete details.
 ## About
 
 **Developer:** Mutabi Jake (Kim Kangwoo)  
-**Organization:** KOICA Volunteer Group 3, Uganda  
-**Education:** Kangwon University, Department of Artificial Intelligence  
+**Organization:** KOICA Project Volunteer Group 3, Uganda  
 **Repository:** https://github.com/applelog/boost_your_typingspeed_v1.7
 
 ---
@@ -188,7 +187,7 @@ See the [LICENSE](LICENSE) file for complete details.
 ## Acknowledgments
 
 Special thanks to:
-- KOICA Volunteer Group 3 for the opportunity to serve
+- KOICA Project Volunteer Group 3 for the opportunity to serve
 - All ICT trainees and mentors who provided feedback
 - The open-source community for inspiration
 
